@@ -1,0 +1,18 @@
+{
+  "name": "roll-wineandchord",
+  "version": "1.0.0",
+  "private": true,
+  "description": "外卖出餐决策站：截图店铺池、Roll 随机与个人偏好管理",
+  "type": "module",
+  "scripts": {
+    "serve": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/core.test.js && node scripts/validate-data.mjs",
+    "test:e2e": "playwright test",
+    "audit": "npm test && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.0",
+    "@playwright/test": "^1.56.0"
+  }
+}

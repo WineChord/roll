@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#17233f" />
+    <title>截图清单 · ROLL</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="inventory.css" />
+  </head>
+  <body class="inventory-page">
+    <header class="site-header">
+      <a class="brand" href="./">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <span class="brand-word">ROLL</span>
+        <span class="brand-sub">饭票罗盘</span>
+      </a>
+      <nav class="site-nav" aria-label="主导航">
+        <a href="./">决策台</a>
+        <a href="./#pool">饭池</a>
+        <a href="inventory.html" aria-current="page">截图清单</a>
+      </nav>
+      <a class="button button-quiet inventory-back" href="./">
+        <i data-lucide="arrow-left" aria-hidden="true"></i>
+        返回
+      </a>
+    </header>
+
+    <main class="inventory-main">
+      <div class="inventory-hero">
+        <div>
+          <p class="section-kicker">Screenshot Inventory</p>
+          <h1>逐条核对截图</h1>
+          <p id="inventoryIntro"></p>
+        </div>
+        <div class="inventory-downloads">
+          <a class="button button-primary" href="data/shops.csv" download>
+            <i data-lucide="file-spreadsheet" aria-hidden="true"></i>
+            CSV
+          </a>
+          <a class="button button-quiet" href="data/shops.json" download>
+            <i data-lucide="file-json" aria-hidden="true"></i>
+            JSON
+          </a>
+        </div>
+      </div>
+
+      <section class="inventory-controls" aria-label="清单筛选">
+        <label class="search-field">
+          <i data-lucide="search" aria-hidden="true"></i>
+          <span class="sr-only">搜索清单</span>
+          <input id="inventorySearch" type="search" placeholder="搜门店或品类" />
+        </label>
+        <label class="select-field">
+          <i data-lucide="image" aria-hidden="true"></i>
+          <span class="sr-only">来源截图</span>
+          <select id="sourceFilter"></select>
+        </label>
+        <p id="inventoryCount" role="status"></p>
+      </section>
+
+      <section id="inventoryList" aria-label="店铺截图清单"></section>
+      <div class="load-more-wrap">
+        <button class="button button-quiet" id="inventoryMore" type="button">
+          <i data-lucide="plus" aria-hidden="true"></i>
+          再加载一批
+        </button>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <b>ROLL / 饭票罗盘</b>
+      </div>
+      <p id="inventoryFootnote"></p>
+      <div class="footer-links">
+        <a href="./">返回决策台</a>
+        <a href="https://github.com/WineChord/roll" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </footer>
+
+    <script src="assets/vendor/third_party/lucide/lucide.min.js"></script>
+    <script src="data/shops.js"></script>
+    <script src="inventory.js"></script>
+  </body>
+</html>

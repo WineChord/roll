@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1f49ff" />
+    <meta
+      name="description"
+      content="ROLL 饭票罗盘：基于 453 家美团截图店铺的本地外卖决策工具。"
+    />
+    <title>ROLL · 今天吃哪家</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/hero-roll.jpg" as="image" fetchpriority="high" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#pool">跳到饭池</a>
+
+    <header class="site-header">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">
+          <span></span>
+        </span>
+        <span class="brand-word">ROLL</span>
+        <span class="brand-sub">饭票罗盘</span>
+      </a>
+      <nav class="site-nav" aria-label="主导航">
+        <a href="#roll">决策台</a>
+        <a href="#pool">饭池</a>
+        <button type="button" id="prefsButton">
+          <i data-lucide="settings-2" aria-hidden="true"></i>
+          偏好
+        </button>
+      </nav>
+      <div class="header-tools">
+        <button
+          class="icon-button"
+          id="soundButton"
+          type="button"
+          aria-label="关闭音效"
+          aria-pressed="true"
+          title="音效"
+        >
+          <i data-lucide="volume-2" aria-hidden="true"></i>
+        </button>
+        <span class="snapshot-badge" title="数据来源日期">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          11·19 快照
+        </span>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="heroTitle">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span>外卖决策机</span>
+            <span>453 家店铺</span>
+          </p>
+          <h1 id="heroTitle">今天这顿，<br /><em>不纠结。</em></h1>
+          <p class="hero-lede">
+            先按你的条件收窄，再用一场公平的随机，替这顿饭按下确定键。
+          </p>
+          <div class="hero-actions">
+            <button class="button button-primary button-large" id="heroRoll" type="button">
+              <i data-lucide="shuffle" aria-hidden="true"></i>
+              <span>开始 Roll</span>
+            </button>
+            <a class="button button-ghost button-large" href="#pool">
+              去看饭池
+              <i data-lucide="arrow-down-right" aria-hidden="true"></i>
+            </a>
+          </div>
+          <p class="pool-summary" id="heroSummary" role="status">正在读取店铺池…</p>
+        </div>
+        <div class="hero-sticker" aria-hidden="true">
+          <span>6</span>
+          <small>种决定方式</small>
+        </div>
+      </section>
+
+      <section class="decision-shell" id="roll" aria-labelledby="decisionTitle">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Decision Desk</p>
+            <h2 id="decisionTitle">决策台</h2>
+          </div>
+          <div class="dataset-pill">
+            <i data-lucide="database" aria-hidden="true"></i>
+            <span id="datasetStatus">数据校验中</span>
+          </div>
+        </div>
+
+        <div class="mode-bar" id="modeBar" role="tablist" aria-label="随机方式"></div>
+
+        <div class="decision-grid">
+          <div class="roll-machine" id="rollMachine">
+            <div class="machine-topline">
+              <span class="machine-label" id="machineLabel">开箱</span>
+              <span class="machine-live"><i></i><span id="machineStatus">待命</span></span>
+            </div>
+            <div class="machine-stage" id="rollStage" aria-live="polite">
+              <div class="idle-stack" id="idleStack"></div>
+            </div>
+            <div class="machine-foot">
+              <span id="machineHint">准备从当前池中公平抽取</span>
+              <button class="icon-button" id="machineSound" type="button" title="音效">
+                <i data-lucide="audio-lines" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+
+          <aside class="rule-card" aria-labelledby="ruleTitle">
+            <div class="rule-head">
+              <div>
+                <p class="section-kicker">Rules</p>
+                <h3 id="ruleTitle">这一轮规则</h3>
+              </div>
+              <span class="rule-count" id="rulePoolCount">0 家</span>
+            </div>
+            <div class="rule-list">
+              <label class="switch-row">
+                <span>
+                  <i data-lucide="history" aria-hidden="true"></i>
+                  <span>
+                    <b>避开最近结果</b>
+                    <small id="recentRuleText">最近 3 次</small>
+                  </span>
+                </span>
+                <input id="excludeRecentToggle" type="checkbox" />
+                <span class="switch" aria-hidden="true"></span>
+              </label>
+              <label class="switch-row">
+                <span>
+                  <i data-lucide="badge-check" aria-hidden="true"></i>
+                  <span>
+                    <b>只允许白名单</b>
+                    <small id="whitelistRuleText">未启用</small>
+                  </span>
+                </span>
+                <input id="onlyWhitelistToggle" type="checkbox" />
+                <span class="switch" aria-hidden="true"></span>
+              </label>
+              <label class="switch-row">
+                <span>
+                  <i data-lucide="heart" aria-hidden="true"></i>
+                  <span>
+                    <b>只看收藏</b>
+                    <small id="favoritesRuleText">未启用</small>
+                  </span>
+                </span>
+                <input id="favoritesOnlyToggle" type="checkbox" />
+                <span class="switch" aria-hidden="true"></span>
+              </label>
+            </div>
+            <div class="rule-actions">
+              <button class="button button-primary button-roll" id="rollButton" type="button">
+                <i data-lucide="dices" aria-hidden="true"></i>
+                <span id="rollButtonText">Roll 一次</span>
+              </button>
+              <button class="button button-quiet" id="rulesButton" type="button">
+                <i data-lucide="sliders-horizontal" aria-hidden="true"></i>
+                调整规则
+              </button>
+            </div>
+          </aside>
+        </div>
+
+        <section class="result-panel" id="resultPanel" hidden aria-live="polite"></section>
+      </section>
+
+      <section class="library" id="pool" aria-labelledby="poolTitle">
+        <div class="section-heading library-heading">
+          <div>
+            <p class="section-kicker">Shortlist</p>
+            <h2 id="poolTitle">饭池</h2>
+          </div>
+          <div class="library-actions">
+            <button class="button button-quiet" id="exportButton" type="button">
+              <i data-lucide="download" aria-hidden="true"></i>
+              导出
+            </button>
+            <button class="button button-quiet" id="prefsButtonSecondary" type="button">
+              <i data-lucide="settings-2" aria-hidden="true"></i>
+              偏好
+            </button>
+          </div>
+        </div>
+
+        <div class="library-tabs" id="libraryTabs" role="tablist" aria-label="饭池视图">
+          <button type="button" role="tab" data-pool-view="all" aria-selected="true">
+            全部 <span id="allCount"></span>
+          </button>
+          <button type="button" role="tab" data-pool-view="favorites" aria-selected="false">
+            <i data-lucide="heart" aria-hidden="true"></i>
+            收藏 <span id="favoritesCount"></span>
+          </button>
+          <button type="button" role="tab" data-pool-view="whitelist" aria-selected="false">
+            <i data-lucide="badge-check" aria-hidden="true"></i>
+            白名单 <span id="whitelistCount"></span>
+          </button>
+          <button type="button" role="tab" data-pool-view="blacklist" aria-selected="false">
+            <i data-lucide="ban" aria-hidden="true"></i>
+            黑名单 <span id="blacklistCount"></span>
+          </button>
+          <button type="button" role="tab" data-pool-view="history" aria-selected="false">
+            <i data-lucide="history" aria-hidden="true"></i>
+            记录 <span id="historyCount"></span>
+          </button>
+        </div>
+
+        <div class="pool-toolbar">
+          <label class="search-field">
+            <i data-lucide="search" aria-hidden="true"></i>
+            <span class="sr-only">搜索门店</span>
+            <input
+              id="searchInput"
+              type="search"
+              autocomplete="off"
+              maxlength="80"
+              placeholder="搜店名、品类或标签"
+            />
+            <button type="button" id="clearSearch" class="clear-search" aria-label="清空搜索">
+              <i data-lucide="x" aria-hidden="true"></i>
+            </button>
+          </label>
+          <label class="select-field">
+            <i data-lucide="arrow-down-up" aria-hidden="true"></i>
+            <span class="sr-only">排序</span>
+            <select id="sortSelect"></select>
+          </label>
+          <div class="view-toggle" role="group" aria-label="列表样式">
+            <button
+              type="button"
+              class="icon-button"
+              data-view="grid"
+              aria-label="网格视图"
+              aria-pressed="true"
+              title="网格视图"
+            >
+              <i data-lucide="layout-grid" aria-hidden="true"></i>
+            </button>
+            <button
+              type="button"
+              class="icon-button"
+              data-view="list"
+              aria-label="列表视图"
+              aria-pressed="false"
+              title="列表视图"
+            >
+              <i data-lucide="list" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="filter-ribbon" id="filterRibbon" aria-label="饭池筛选"></div>
+
+        <div class="pool-meta">
+          <p id="poolResultText" role="status"></p>
+          <button type="button" class="text-button" id="clearFilters">清除筛选</button>
+        </div>
+
+        <div class="pool-grid" id="poolGrid" aria-live="polite"></div>
+        <div class="load-more-wrap">
+          <button type="button" class="button button-quiet" id="loadMoreButton" hidden>
+            <i data-lucide="plus" aria-hidden="true"></i>
+            再加载一批
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <b>ROLL / 饭票罗盘</b>
+      </div>
+      <p id="footerDataNote"></p>
+      <div class="footer-links">
+        <a href="inventory.html">截图清单</a>
+        <button type="button" id="sourceButton">数据来源</button>
+        <button type="button" id="importButton">导入偏好</button>
+        <a href="https://github.com/WineChord/roll" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </footer>
+
+    <dialog class="sheet-dialog" id="detailDialog" aria-labelledby="detailTitle">
+      <div class="dialog-panel detail-panel">
+        <button class="dialog-close icon-button" type="button" data-close-dialog title="关闭" aria-label="关闭详情">
+          <i data-lucide="x" aria-hidden="true"></i>
+        </button>
+        <div id="detailContent"></div>
+      </div>
+    </dialog>
+
+    <dialog class="sheet-dialog" id="prefsDialog" aria-labelledby="prefsTitle">
+      <div class="dialog-panel prefs-panel">
+        <button class="dialog-close icon-button" type="button" data-close-dialog title="关闭" aria-label="关闭偏好">
+          <i data-lucide="x" aria-hidden="true"></i>
+        </button>
+        <div class="dialog-heading">
+          <p class="section-kicker">Preferences</p>
+          <h2 id="prefsTitle">偏好与数据</h2>
+        </div>
+        <div id="prefsContent"></div>
+      </div>
+    </dialog>
+
+    <dialog class="confirm-dialog" id="confirmDialog" aria-labelledby="confirmTitle">
+      <form method="dialog">
+        <div class="confirm-icon" aria-hidden="true">
+          <i data-lucide="triangle-alert"></i>
+        </div>
+        <h2 id="confirmTitle">确认操作</h2>
+        <p id="confirmText"></p>
+        <div class="confirm-actions">
+          <button class="button button-quiet" value="cancel">取消</button>
+          <button class="button button-danger" id="confirmAccept" value="confirm">确认</button>
+        </div>
+      </form>
+    </dialog>
+
+    <input
+      id="importInput"
+      class="sr-only"
+      type="file"
+      accept="application/json,.json"
+      aria-label="导入偏好文件"
+    />
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="assets/vendor/third_party/lucide/lucide.min.js"></script>
+    <script src="data/shops.js"></script>
+    <script src="app-core.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

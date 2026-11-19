@@ -1,0 +1,11 @@
+Use case: stylized-concept
+Asset type: website hero artwork for a takeout decision web app
+Primary request: create an original playful 3D food mascot and roll machine scene, with no existing brand characters
+Scene/backdrop: saturated cobalt-blue diner world with subtle halftone dots and tiny rice-grain confetti, clean uncluttered edges, some empty negative space on the left for interface content
+Subject: a cheerful round rice-ball courier character with a small red scarf and tiny white gloves, spinning a red-and-yellow compass made from a takeout lid; beside it, a compact gumball-machine-like lunch dispenser with tiny food tiles, chopsticks, and steam
+Style/medium: premium soft 3D illustration, handcrafted clay-and-paper texture, playful editorial product visuals, high detail
+Composition/framing: wide 3:2 composition, character and machine grouped on the right, dramatic but readable silhouette, room for UI overlay on the left
+Lighting/mood: bright lunchtime energy, crisp studio lighting, optimistic and appetizing
+Color palette: cobalt blue, tomato red, butter yellow, mint green, warm white accents; avoid a one-note blue palette
+Constraints: no text, no letters, no logos, no watermark, no human hands, no photorealism, no stock-photo look
+Avoid: existing mascot designs, whale characters, cluttered background, gradients as the whole background, purple, dark navy dominance
