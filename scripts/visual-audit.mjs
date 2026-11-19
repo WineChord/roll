@@ -48,6 +48,10 @@ for (const target of [
   }));
   await page.getByRole("button", { name: "Roll 一次" }).click();
   await page.locator("#resultPanel").waitFor({ state: "visible" });
+  await page.waitForFunction(() => {
+    const image = document.querySelector("#resultPanel img");
+    return image && image.complete && image.naturalWidth > 0;
+  });
   await page.screenshot({
     path: path.join(output, `${target.name}-result.png`),
     fullPage: false,
